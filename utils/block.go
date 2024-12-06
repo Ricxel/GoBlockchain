@@ -38,6 +38,6 @@ func newBlock(prevHash []byte, data []byte) *Block {
 	b.CalculateHash()
 	return &b //ritorno l'indirizzo del blocco
 }
-func (b Block) print() {
+func (b Block) Print() {
 	fmt.Print("{" + string(b.PrevHash) + ", " + string(b.Data) + ", " + string(b.Hash) + "}")
 }
