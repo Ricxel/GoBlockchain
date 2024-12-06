@@ -3,6 +3,7 @@ package utils
 import (
 	"crypto/sha256"
 	"encoding/binary"
+	"fmt"
 	"time"
 )
 
@@ -28,7 +29,7 @@ func (b *Block) CalculateHash() {
 	digest := hash.Sum(nil) //calcolo l'hash
 	b.Hash = digest[:]
 }
-func New(prevHash []byte, data []byte) *Block {
+func newBlock(prevHash []byte, data []byte) *Block {
 	b := Block{ //faccio il blocco
 		PrevHash:  prevHash,
 		Data:      data,
@@ -36,4 +37,7 @@ func New(prevHash []byte, data []byte) *Block {
 	}
 	b.CalculateHash()
 	return &b //ritorno l'indirizzo del blocco
+}
+func (b Block) print() {
+	fmt.Print("{" + string(b.PrevHash) + ", " + string(b.Data) + ", " + string(b.Hash) + "}")
 }

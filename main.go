@@ -1,7 +1,7 @@
 package main
 
 import (
-	"GoBlockchain/utils"
+	"github.com/Ricxel/GoBlockchain.git/utils"
 )
 
 func main() {
