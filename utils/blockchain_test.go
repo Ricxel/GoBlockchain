@@ -14,3 +14,19 @@ func TestBlockChain(t *testing.T) {
 	bc.Print()
 	t.Log()
 }
+
+func TestMine(t *testing.T) {
+	//creiamo la blockchain
+	bc := NewBlockchain()
+	//aggiungo un blocco
+	prevHash := bc.GetLastHash()
+	block := newBlock(prevHash, []byte("Primo blocco da minare!"))
+
+	block.Mine()
+	t.Log("Blocco minato")
+	//lo inseriamo nella blockchain
+	bc.insertBlock(block)
+	t.Log("Blocchi inseriti")
+	bc.Print()
+	t.Log()
+}
