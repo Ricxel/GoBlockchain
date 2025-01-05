@@ -19,7 +19,17 @@ func NewBlockchain() *Blockchain {
 		Digests: []Digest{},
 		Blocks:  make(map[string]*Block), //inizializzazione della map
 	}
+	bc.GenerateGenesisBlock()
 	return &bc
+}
+func (bc *Blockchain) insertBlock(b *Block) {
+	//se è valido lo mettiamo dentro
+	if !b.verify() {
+		return
+	}
+	fmt.Println("Blocco valido, inserito!")
+	bc.Digests = append(bc.Digests, b.Hash)
+	bc.Blocks[string(b.Hash)] = b
 }
 func (bc *Blockchain) InsertBlock(transactions []Transaction) { //inserimento nodo
 	//steps:
@@ -41,6 +51,24 @@ func (bc *Blockchain) InsertBlock(transactions []Transaction) { //inserimento no
 }
 func (bc Blockchain) GetBlock(digest []byte) *Block { //ottieni nodo
 	return bc.Blocks[string(digest)]
+}
+func (bc *Blockchain) GetLastHash() []byte {
+	if len(bc.Digests) == 0 {
+		return []byte{} //non ci sono blocchi
+	}
+	return bc.Digests[len(bc.Digests)-1]
+}
+func (bc *Blockchain) GenerateGenesisBlock() {
+	block := Block{
+		PrevHash:  []byte{},
+		Data:      []byte("Genesis Block"),
+		TimeStamp: 0,
+		Nonce:     0,
+		Target:    0,
+	}
+	block.Hash = block.CalculateHash()
+	bc.Digests = append(bc.Digests, block.Hash)
+	bc.Blocks[string(block.Hash)] = &block
 }
 func (bc Blockchain) Print() {
 	for i := 0; i < len(bc.Digests); i++ {
